@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Index</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <p>保存数据</p>
+    <form id="add_data" class="form-inline" onsubmit="return false;">
+        <input type="text" class="form-control" id="data" placeholder="data">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>读取数据</p>
+    <textarea id="loaded_data" rows="5" cols="30" readonly></textarea>
+    <button type="button" class="btn btn-primary" id="load_data">Load</button>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>保存社交数据</p>
+    <form id="add_social_data" class="form-inline" onsubmit="return false;">
+        <input type="text" class="form-control" id="social_data" placeholder="data">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>读取社交数据</p>
+    <textarea id="loaded_social_data" rows="5" cols="30" readonly></textarea>
+    <form id="load_social_data" class="form-inline" onsubmit="return false;">
+        <input type="text" class="form-control" id="other_name" placeholder="data">
+        <button type="submit" class="btn btn-primary">Load</button>
+    </form>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>更新总里程</p>
+    <form id="update_total_mileage" class="form-inline" onsubmit="return false;">
+        <input type="text" class="form-control" id="total_mileage" placeholder="data">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>获取总里程排行</p>
+    <textarea id="total_mileage_board" rows="5" cols="30" readonly></textarea>
+    <button type="button" class="btn btn-primary" id="get_total_mileage_board">Load</button>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>更新最远里程</p>
+    <form id="update_farest_mileage" class="form-inline" onsubmit="return false;">
+        <input type="text" class="form-control" id="farest_mileage" placeholder="data">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>获取最远里程排行</p>
+    <textarea id="farest_mileage_board" rows="5" cols="30" readonly></textarea>
+    <button type="button" class="btn btn-primary" id="get_farest_mileage_board">Load</button>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>更新总积分</p>
+    <form id="update_score" class="form-inline" onsubmit="return false;">
+        <input type="text" class="form-control" id="score" placeholder="data">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+<p></p>
+<hr>
+<div class="container">
+    <p>获取总积分排行</p>
+    <textarea id="score_board" rows="5" cols="30" readonly></textarea>
+    <button type="button" class="btn btn-primary" id="get_score_board">Load</button>
+</div>
+<p></p>
+<hr>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#add_data').submit(function () {
+                $.ajax({
+                    url: '/player/save_data',
+                    type: 'POST',
+                    data: {'data': $('#data').val()},
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#load_data').click(function () {
+                $.ajax({
+                    url: '/player/load_data',
+                    type: 'GET',
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            $('#loaded_data').val(ret.response);
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#add_social_data').submit(function () {
+                $.ajax({
+                    url: '/player/save_social_data',
+                    type: 'POST',
+                    data: {'data': $('#social_data').val()},
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#load_social_data').submit(function () {
+                $.ajax({
+                    url: '/player/load_social_data',
+                    type: 'POST',
+                    data: {'name': $('#other_name').val()},
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            $('#loaded_social_data').val(ret.response);
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#update_total_mileage').submit(function () {
+                $.ajax({
+                    url: '/board/update_total_mileage',
+                    type: 'POST',
+                    data: {'value':parseInt($('#total_mileage').val())},
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#get_total_mileage_board').click(function () {
+                $.ajax({
+                    url: '/board/get_total_mileage_board',
+                    type: 'GET',
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            $('#total_mileage_board').val(JSON.stringify(ret.response));
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#update_farest_mileage').submit(function () {
+                $.ajax({
+                    url: '/board/update_farest_mileage',
+                    type: 'POST',
+                    data: {'value':parseInt($('#farest_mileage').val())},
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#get_farest_mileage_board').click(function () {
+                $.ajax({
+                    url: '/board/get_farest_mileage_board',
+                    type: 'GET',
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            $('#farest_mileage_board').val(JSON.stringify(ret.response));
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#update_score').submit(function () {
+                $.ajax({
+                    url: '/board/update_score',
+                    type: 'POST',
+                    data: {'value':parseInt($('#score').val())},
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+            $('#get_score_board').click(function () {
+                $.ajax({
+                    url: '/board/get_score_board',
+                    type: 'GET',
+                    async: false,
+                    success: function (ret) {
+                        if (ret.key == '0') {
+                            $('#score_board').val(JSON.stringify(ret.response));
+                            alert("Success");
+                        } else {
+                            alert(ret.message);
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+</div>
+</body>
+</html>
